@@ -13,7 +13,10 @@ database
   .then(() => {
     // Start server only when the connection to the database is ok
     const appPort = config.app.port;
+
     // Server on
-    app.listen(appPort, () => console.log(`Server running on port ${appPort}`));
+    app.listen(appPort, () =>
+      console.log(`Server running on port: ${appPort}`),
+    );
   })
   .catch((err) => console.error('Cannot connect to MongoDB', { err }));

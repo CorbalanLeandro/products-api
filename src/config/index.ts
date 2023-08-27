@@ -1,7 +1,7 @@
 import dotEnv from 'dotenv';
 
-import { DEFAULT_APP_PORT } from '../constants';
 import { demandEnv } from '../utils';
+import { DEFAULT_APP_PORT } from '../constants';
 
 dotEnv.config();
 
