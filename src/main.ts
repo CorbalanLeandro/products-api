@@ -2,11 +2,16 @@ import express from 'express';
 
 import config from './config';
 import database from './database';
+import { APP_GLOBAL_PREFIX } from './constants';
+import { productRoutes } from './routes';
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
+
+// Routes
+app.use(`${APP_GLOBAL_PREFIX}/products`, productRoutes);
 
 // Database
 database
