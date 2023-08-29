@@ -1,7 +1,12 @@
 import { Schema, model } from 'mongoose';
 
 import { IProduct } from '../interfaces';
-import { PRODUCT_CODE_LENGTH, PRODUCT_NAME_LENGTH } from '../constants';
+
+import {
+  PRODUCT_CODE_LENGTH,
+  PRODUCT_NAME_LENGTH,
+  PRODUCT_TOTAL_SALES_MIN,
+} from '../constants';
 
 const ProductSchema = new Schema<IProduct>({
   code: {
@@ -28,7 +33,7 @@ const ProductSchema = new Schema<IProduct>({
   totalSales: {
     type: Number,
     required: true,
-    min: 0,
+    min: PRODUCT_TOTAL_SALES_MIN,
     default: 0,
   },
 });
