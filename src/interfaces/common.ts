@@ -7,3 +7,7 @@ export interface IMongoIdParam {
 export interface IMongoSortQuery {
   sort?: MONGO_SORT;
 }
+
+export interface IResultResponse {
+  result: boolean;
+}

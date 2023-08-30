@@ -33,13 +33,7 @@ router.patch(
   '/:id',
   checkSchema(UpdateProductValidationSchema),
   validateRequest,
-  async (req: Request, res: Response) => {
-    res.send({
-      message: 'Updating a product by id',
-      body: req.body,
-      id: req.params.id,
-    });
-  },
+  withErrorHandling(productController.updateProduct),
 );
 
 router.delete(

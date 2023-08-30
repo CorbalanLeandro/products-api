@@ -8,8 +8,11 @@ import {
   ICreateProduct,
   IProductResponse,
   IProductsResponse,
+  IResultResponse,
+  IMongoSortQuery,
+  IUpdateProduct,
+  IMongoIdParam,
 } from '../interfaces';
-import { IMongoSortQuery } from '../interfaces/common';
 
 class ProductController {
   /**
@@ -30,7 +33,7 @@ class ProductController {
   }
 
   /**
-   * Finds all products
+   * Finds all products.
    * If sort query param is received, all products will be sorted with the given value on the creation date.
    *
    * @param {Request} req
@@ -45,6 +48,35 @@ class ProductController {
     const products = await productService.findAllProducts(validatedData.sort);
 
     return res.status(StatusCodes.OK).json({ products });
+  }
+
+  /**
+   * Updates a product and return a result response.
+   *
+   * @param {Request} req
+   * @param {Response<IResultResponse>} res
+   * @returns {Promise<Response<IResultResponse>>}
+   */
+  async updateProduct(
+    req: Request,
+    res: Response<IResultResponse>,
+  ): Promise<Response<IResultResponse>> {
+    const validatedData = matchedData(req) as IUpdateProduct & IMongoIdParam;
+    const { id, ...productData } = validatedData;
+
+    const result = await productService.updateProduct(id, productData);
+
+    let statusCode: number;
+
+    if (!result) {
+      // even if we set the same value to a property mongo return the result as it was modified
+      // so if nothing is modified means that the document was not found
+      statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      statusCode = StatusCodes.OK;
+    }
+
+    return res.status(statusCode).json({ result });
   }
 }
 
