@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { matchedData } from 'express-validator';
 
 import { productService } from '../services';
+import { MONGO_SORT } from '../constants';
 
 import {
   ICreateProduct,
@@ -128,6 +129,64 @@ class ProductController {
     let statusCode: number;
 
     if (!productFound) {
+      statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      statusCode = StatusCodes.OK;
+    }
+
+    return res.status(statusCode).json({ product: productFound });
+  }
+
+  /**
+   * Finds the best seller product
+   *
+   * @param {Request} _req
+   * @param {Response<IProductsResponse>} res
+   * @returns {Promise<Response<IProductsResponse>>}
+   */
+  async findBestSeller(
+    _req: Request,
+    res: Response<IProductResponse>,
+  ): Promise<Response<IProductResponse>> {
+    const productFound = await productService.findOneProduct(
+      undefined,
+      undefined,
+      { sort: { totalSales: MONGO_SORT.DESC } },
+    );
+
+    let statusCode: number;
+
+    if (!productFound) {
+      // maybe there are no products
+      statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      statusCode = StatusCodes.OK;
+    }
+
+    return res.status(statusCode).json({ product: productFound });
+  }
+
+  /**
+   * Finds the product with more revenue
+   *
+   * @param {Request} _req
+   * @param {Response<IProductsResponse>} res
+   * @returns {Promise<Response<IProductsResponse>>}
+   */
+  async findBestRevenue(
+    _req: Request,
+    res: Response<IProductResponse>,
+  ): Promise<Response<IProductResponse>> {
+    const productFound = await productService.findOneProduct(
+      undefined,
+      undefined,
+      { sort: { totalRevenue: MONGO_SORT.DESC } },
+    );
+
+    let statusCode: number;
+
+    if (!productFound) {
+      // maybe there are no products
       statusCode = StatusCodes.NOT_FOUND;
     } else {
       statusCode = StatusCodes.OK;

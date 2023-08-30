@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
 import { MONGO_SORT } from '../constants';
 import { ICreateProduct, IUpdateProduct } from '../interfaces';
 import { ProductDocument, ProductModel } from '../models';
@@ -65,9 +65,11 @@ class ProductService {
    * @returns {Promise<ProductDocument | null>} The product found or null if there are no matches that meet the filter criteria
    */
   async findOneProduct(
-    filter: FilterQuery<ProductDocument>,
+    filter: FilterQuery<ProductDocument> = {},
+    projections: ProjectionType<ProductDocument> = {},
+    options: QueryOptions<ProductDocument> = {},
   ): Promise<ProductDocument | null> {
-    const product = await ProductModel.findOne(filter);
+    const product = await ProductModel.findOne(filter, projections, options);
 
     return product;
   }

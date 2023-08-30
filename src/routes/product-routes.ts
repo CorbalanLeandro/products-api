@@ -57,12 +57,11 @@ router.get(
   withErrorHandling(productController.findOneProduct),
 );
 
-router.get('/best-seller', (_req, res) => {
-  res.send('Getting best seller');
-});
+router.get('/best-seller', withErrorHandling(productController.findBestSeller));
 
-router.get('/best-revenue', (_req, res) => {
-  res.send('Getting product with more revenue');
-});
+router.get(
+  '/best-revenue',
+  withErrorHandling(productController.findBestRevenue),
+);
 
 export { router as productRoutes };
