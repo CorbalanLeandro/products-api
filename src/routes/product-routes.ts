@@ -10,6 +10,7 @@ import {
 } from '../validation-schemas';
 
 import { validateRequest } from '../middlewares';
+import { productController } from '../controllers';
 
 const router = Router();
 
@@ -17,12 +18,7 @@ router.post(
   '/',
   checkSchema(CreateProductValidationSchema),
   validateRequest,
-  async (req: Request, res: Response) => {
-    res.send({
-      message: 'Creating a product',
-      body: req.body,
-    });
-  },
+  productController.createProduct,
 );
 
 router.get('/', (_req, res) => {

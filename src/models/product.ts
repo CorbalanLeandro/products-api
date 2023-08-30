@@ -1,6 +1,5 @@
-import { Schema, model } from 'mongoose';
-
-import { IProduct } from '../interfaces';
+import { HydratedDocument } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
 import {
   PRODUCT_CODE_LENGTH,
@@ -8,35 +7,47 @@ import {
   PRODUCT_TOTAL_SALES_MIN,
 } from '../constants';
 
-const ProductSchema = new Schema<IProduct>({
-  code: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: PRODUCT_CODE_LENGTH.MIN,
-    maxlength: PRODUCT_CODE_LENGTH.MAX,
-  },
-  name: {
+class Product {
+  @prop({
     type: String,
     required: true,
     unique: true,
     trim: true,
     minlength: PRODUCT_NAME_LENGTH.MIN,
     maxlength: PRODUCT_NAME_LENGTH.MAX,
-  },
-  totalRevenue: {
+  })
+  public name!: string;
+
+  @prop({
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    minlength: PRODUCT_CODE_LENGTH.MIN,
+    maxlength: PRODUCT_CODE_LENGTH.MAX,
+  })
+  public code!: string;
+
+  @prop({
     type: Number,
     required: true,
     default: 0,
-  },
-  totalSales: {
+  })
+  public totalRevenue!: number;
+
+  @prop({
     type: Number,
     required: true,
     min: PRODUCT_TOTAL_SALES_MIN,
     default: 0,
-  },
+  })
+  public totalSales!: number;
+}
+
+const ProductModel = getModelForClass(Product, {
+  schemaOptions: { timestamps: true },
 });
 
-const PRODUCT_MODEL_NAME = 'Product';
-export default model<IProduct>(PRODUCT_MODEL_NAME, ProductSchema);
+type ProductDocument = HydratedDocument<Product>;
+
+export { Product, ProductModel, ProductDocument };

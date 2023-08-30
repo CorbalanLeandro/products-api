@@ -1,12 +1,11 @@
-export interface IProduct {
-  name: string;
-  code: string;
-  totalRevenue: number;
-  totalSales: number;
-}
+import { Product } from '../models';
 
 export interface ICreateProduct
-  extends Pick<IProduct, 'name' | 'code'>,
-    Partial<Pick<IProduct, 'totalRevenue' | 'totalSales'>> {}
+  extends Pick<Product, 'name' | 'code'>,
+    Partial<Pick<Product, 'totalRevenue' | 'totalSales'>> {}
 
-export interface IUpdateProduct extends Partial<IProduct> {}
+export interface IUpdateProduct extends Partial<Product> {}
+
+export interface IProductResponse {
+  product: Product;
+}
