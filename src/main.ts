@@ -18,6 +18,7 @@ app.use(`${APP_GLOBAL_PREFIX}/products`, productRoutes);
 // Error handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  // TODO handle mongo errors
   console.error({ error: inspect(err) });
 
   // Respond generic error
