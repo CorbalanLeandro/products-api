@@ -29,15 +29,22 @@ router.get(
   withErrorHandling(productController.findAllProducts),
 );
 
+router.get(
+  '/:_id',
+  checkSchema(MongoIdParamValidationSchema),
+  validateRequest,
+  withErrorHandling(productController.findOneProduct),
+);
+
 router.patch(
-  '/:id',
+  '/:_id',
   checkSchema(UpdateProductValidationSchema),
   validateRequest,
   withErrorHandling(productController.updateProduct),
 );
 
 router.delete(
-  '/:id',
+  '/:_id',
   checkSchema(MongoIdParamValidationSchema),
   validateRequest,
   withErrorHandling(productController.deleteProduct),

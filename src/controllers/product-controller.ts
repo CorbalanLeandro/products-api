@@ -63,9 +63,9 @@ class ProductController {
     res: Response<IResultResponse>,
   ): Promise<Response<IResultResponse>> {
     const validatedData = matchedData(req) as IUpdateProduct & IMongoId;
-    const { id, ...productData } = validatedData;
+    const { _id, ...productData } = validatedData;
 
-    const result = await productService.updateProduct(id, productData);
+    const result = await productService.updateProduct(_id, productData);
 
     let statusCode: number;
 
@@ -92,9 +92,9 @@ class ProductController {
     res: Response<IResultResponse>,
   ): Promise<Response<IResultResponse>> {
     const validatedData = matchedData(req) as IMongoId;
-    const { id } = validatedData;
+    const { _id } = validatedData;
 
-    const result = await productService.deleteProduct(id);
+    const result = await productService.deleteProduct(_id);
 
     let statusCode: number;
 

@@ -4,7 +4,7 @@ import { IMongoId } from '../interfaces/common';
 type IMongoIdParamValidationSchema = Record<keyof IMongoId, ParamSchema>;
 
 const MongoIdParamValidationSchema: IMongoIdParamValidationSchema = {
-  id: {
+  _id: {
     in: 'params',
     isMongoId: true,
     errorMessage: 'Param "id" must be a valid Mongo id',

@@ -1,7 +1,7 @@
 import { MONGO_SORT } from '../constants';
 
 export interface IMongoId {
-  id: string;
+  _id: string;
 }
 
 export interface IMongoSort {
