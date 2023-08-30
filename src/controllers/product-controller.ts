@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { matchedData } from 'express-validator';
 
 import { productService } from '../services';
-import { IProductResponse } from '../interfaces';
+import { ICreateProduct, IProductResponse } from '../interfaces';
 
 class ProductController {
   async createProduct(req: Request, res: Response<IProductResponse>) {
-    const createdProduct = await productService.createProduct(req.body);
+    const validatedData = matchedData(req) as ICreateProduct;
+    const createdProduct = await productService.createProduct(validatedData);
 
-    return res.send({ product: createdProduct }).status(StatusCodes.CREATED);
+    return res.status(StatusCodes.CREATED).json({ product: createdProduct });
   }
 }
 

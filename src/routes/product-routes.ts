@@ -9,7 +9,7 @@ import {
   MongoIdParamValidationSchema,
 } from '../validation-schemas';
 
-import { validateRequest } from '../middlewares';
+import { validateRequest, withErrorHandling } from '../middlewares';
 import { productController } from '../controllers';
 
 const router = Router();
@@ -18,7 +18,7 @@ router.post(
   '/',
   checkSchema(CreateProductValidationSchema),
   validateRequest,
-  productController.createProduct,
+  withErrorHandling(productController.createProduct),
 );
 
 router.get('/', (_req, res) => {

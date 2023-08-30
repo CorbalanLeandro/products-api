@@ -1,4 +1,6 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import { inspect } from 'util';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import config from './config';
 import database from './database';
@@ -12,6 +14,18 @@ app.use(express.json());
 
 // Routes
 app.use(`${APP_GLOBAL_PREFIX}/products`, productRoutes);
+
+// Error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error({ error: inspect(err) });
+
+  // Respond generic error
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    error: ReasonPhrases.INTERNAL_SERVER_ERROR,
+    statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+  });
+});
 
 // Database
 database
