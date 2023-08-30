@@ -44,6 +44,18 @@ class ProductService {
 
     return updateResult.modifiedCount === 1;
   }
+
+  /**
+   * Deletes a product by id.
+   *
+   * @param {string} id
+   * @returns {Promise<boolean>} Boolean indicating if a document was deleted.
+   */
+  async deleteProduct(id: string): Promise<boolean> {
+    const deleteResult = await ProductModel.deleteOne({ _id: id });
+
+    return deleteResult.deletedCount === 1;
+  }
 }
 
 export default new ProductService();

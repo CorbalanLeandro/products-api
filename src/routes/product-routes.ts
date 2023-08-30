@@ -40,12 +40,7 @@ router.delete(
   '/:id',
   checkSchema(MongoIdParamValidationSchema),
   validateRequest,
-  async (req: Request, res: Response) => {
-    res.send({
-      message: 'Deleting a product by id',
-      id: req.params.id,
-    });
-  },
+  withErrorHandling(productController.deleteProduct),
 );
 
 router.get(

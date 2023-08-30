@@ -78,6 +78,33 @@ class ProductController {
 
     return res.status(statusCode).json({ result });
   }
+
+  /**
+   * Deletes a product and return a result response.
+   *
+   * @param {Request} req
+   * @param {Response<IResultResponse>} res
+   * @returns {Promise<Response<IResultResponse>>}
+   */
+  async deleteProduct(
+    req: Request,
+    res: Response<IResultResponse>,
+  ): Promise<Response<IResultResponse>> {
+    const validatedData = matchedData(req) as IMongoIdParam;
+    const { id } = validatedData;
+
+    const result = await productService.deleteProduct(id);
+
+    let statusCode: number;
+
+    if (!result) {
+      statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      statusCode = StatusCodes.OK;
+    }
+
+    return res.status(statusCode).json({ result });
+  }
 }
 
 export default new ProductController();
