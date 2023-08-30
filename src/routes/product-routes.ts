@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { checkSchema } from 'express-validator';
 
 import {
@@ -47,24 +47,14 @@ router.get(
   '/code/:code',
   checkSchema(ProductCodeParamValidationSchema),
   validateRequest,
-  async (req: Request, res: Response) => {
-    res.send({
-      message: 'Getting product by code',
-      code: req.params.code,
-    });
-  },
+  withErrorHandling(productController.findOneProduct),
 );
 
 router.get(
   '/name/:name',
   checkSchema(ProductNameParamValidationSchema),
   validateRequest,
-  async (req: Request, res: Response) => {
-    res.send({
-      message: 'Getting products by name',
-      name: req.params.name,
-    });
-  },
+  withErrorHandling(productController.findOneProduct),
 );
 
 router.get('/best-seller', (_req, res) => {

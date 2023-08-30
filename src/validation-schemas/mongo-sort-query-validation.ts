@@ -1,11 +1,8 @@
 import { ParamSchema } from 'express-validator';
-import { IMongoSortQuery } from '../interfaces/common';
+import { IMongoSort } from '../interfaces/common';
 import { MONGO_SORT } from '../constants';
 
-type IMongoSortQueryValidationSchema = Record<
-  keyof IMongoSortQuery,
-  ParamSchema
->;
+type IMongoSortQueryValidationSchema = Record<keyof IMongoSort, ParamSchema>;
 
 const MongoSortQueryValidationSchema: IMongoSortQueryValidationSchema = {
   sort: {

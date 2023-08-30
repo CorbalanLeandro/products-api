@@ -1,5 +1,5 @@
 import { ParamSchema } from 'express-validator';
-import { ICreateProduct, IMongoIdParam } from '../interfaces';
+import { ICreateProduct, IMongoId } from '../interfaces';
 
 import {
   PRODUCT_CODE_LENGTH,
@@ -66,7 +66,7 @@ const CreateProductValidationSchema: IProductValidationSchema = {
 /** Update product validation schema */
 
 type IUpdateProductValidationSchema = Record<
-  keyof IProductValidationSchema & IMongoIdParam,
+  keyof IProductValidationSchema & IMongoId,
   ParamSchema
 >;
 

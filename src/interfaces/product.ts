@@ -7,7 +7,7 @@ export interface ICreateProduct
 export interface IUpdateProduct extends Partial<Product> {}
 
 export interface IProductResponse {
-  product: Product;
+  product: Product | null;
 }
 
 export interface IProductsResponse {

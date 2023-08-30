@@ -1,3 +1,4 @@
+import { FilterQuery } from 'mongoose';
 import { MONGO_SORT } from '../constants';
 import { ICreateProduct, IUpdateProduct } from '../interfaces';
 import { ProductDocument, ProductModel } from '../models';
@@ -55,6 +56,20 @@ class ProductService {
     const deleteResult = await ProductModel.deleteOne({ _id: id });
 
     return deleteResult.deletedCount === 1;
+  }
+
+  /**
+   * Finds a product.
+   *
+   * @param {FilterQuery<ProductDocument>} filter
+   * @returns {Promise<ProductDocument | null>} The product found or null if there are no matches that meet the filter criteria
+   */
+  async findOneProduct(
+    filter: FilterQuery<ProductDocument>,
+  ): Promise<ProductDocument | null> {
+    const product = await ProductModel.findOne(filter);
+
+    return product;
   }
 }
 

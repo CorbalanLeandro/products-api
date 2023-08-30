@@ -1,7 +1,7 @@
 import { ParamSchema } from 'express-validator';
-import { IMongoIdParam } from '../interfaces/common';
+import { IMongoId } from '../interfaces/common';
 
-type IMongoIdParamValidationSchema = Record<keyof IMongoIdParam, ParamSchema>;
+type IMongoIdParamValidationSchema = Record<keyof IMongoId, ParamSchema>;
 
 const MongoIdParamValidationSchema: IMongoIdParamValidationSchema = {
   id: {

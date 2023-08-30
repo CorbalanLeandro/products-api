@@ -1,10 +1,10 @@
 import { MONGO_SORT } from '../constants';
 
-export interface IMongoIdParam {
+export interface IMongoId {
   id: string;
 }
 
-export interface IMongoSortQuery {
+export interface IMongoSort {
   sort?: MONGO_SORT;
 }
 

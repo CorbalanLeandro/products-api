@@ -9,9 +9,9 @@ import {
   IProductResponse,
   IProductsResponse,
   IResultResponse,
-  IMongoSortQuery,
+  IMongoSort,
   IUpdateProduct,
-  IMongoIdParam,
+  IMongoId,
 } from '../interfaces';
 
 class ProductController {
@@ -44,7 +44,7 @@ class ProductController {
     req: Request,
     res: Response<IProductsResponse>,
   ): Promise<Response<IProductsResponse>> {
-    const validatedData = matchedData(req) as IMongoSortQuery;
+    const validatedData = matchedData(req) as IMongoSort;
     const products = await productService.findAllProducts(validatedData.sort);
 
     return res.status(StatusCodes.OK).json({ products });
@@ -61,7 +61,7 @@ class ProductController {
     req: Request,
     res: Response<IResultResponse>,
   ): Promise<Response<IResultResponse>> {
-    const validatedData = matchedData(req) as IUpdateProduct & IMongoIdParam;
+    const validatedData = matchedData(req) as IUpdateProduct & IMongoId;
     const { id, ...productData } = validatedData;
 
     const result = await productService.updateProduct(id, productData);
@@ -90,7 +90,7 @@ class ProductController {
     req: Request,
     res: Response<IResultResponse>,
   ): Promise<Response<IResultResponse>> {
-    const validatedData = matchedData(req) as IMongoIdParam;
+    const validatedData = matchedData(req) as IMongoId;
     const { id } = validatedData;
 
     const result = await productService.deleteProduct(id);
@@ -104,6 +104,36 @@ class ProductController {
     }
 
     return res.status(statusCode).json({ result });
+  }
+
+  /**
+   * Finds a product.
+   * If a product is not found, will respond with 404.
+   *
+   * @param {Request} req
+   * @param {Response<IProductsResponse>} res
+   * @returns {Promise<Response<IProductsResponse>>}
+   */
+  async findOneProduct(
+    req: Request,
+    res: Response<IProductResponse>,
+  ): Promise<Response<IProductResponse>> {
+    // https://express-validator.github.io/docs/api/matched-data/#matcheddata
+    // if we are looking by code and we receive it as path param, `matchedData` will return that code
+    // if we are looking by name and _id and we receive them on the body,  `matchedData` will return that name and _id
+    const validatedData = matchedData(req);
+
+    const productFound = await productService.findOneProduct(validatedData);
+
+    let statusCode: number;
+
+    if (!productFound) {
+      statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      statusCode = StatusCodes.OK;
+    }
+
+    return res.status(statusCode).json({ product: productFound });
   }
 }
 
