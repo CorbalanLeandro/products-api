@@ -1,12 +1,13 @@
 import { ParamSchema } from 'express-validator';
-import { ICreateProduct } from '../interfaces';
+import { ICreateProduct, IMongoIdParam } from '../interfaces';
+
 import {
   PRODUCT_CODE_LENGTH,
   PRODUCT_NAME_LENGTH,
   PRODUCT_TOTAL_SALES_MIN,
 } from '../constants';
+
 import { MongoIdParamValidationSchema } from './mongo-id-param-validation';
-import { IMongoIdParamSchema } from '../interfaces/common';
 
 /** Default product properties */
 
@@ -65,7 +66,7 @@ const CreateProductValidationSchema: IProductValidationSchema = {
 /** Update product validation schema */
 
 type IUpdateProductValidationSchema = Record<
-  keyof IProductValidationSchema & IMongoIdParamSchema,
+  keyof IProductValidationSchema & IMongoIdParam,
   ParamSchema
 >;
 

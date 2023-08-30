@@ -1,5 +1,9 @@
-import { ParamSchema } from 'express-validator';
+import { MONGO_SORT } from '../constants';
 
-export interface IMongoIdParamSchema {
-  id: ParamSchema;
+export interface IMongoIdParam {
+  id: string;
+}
+
+export interface IMongoSortQuery {
+  sort?: MONGO_SORT;
 }

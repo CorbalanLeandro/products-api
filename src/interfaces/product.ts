@@ -9,3 +9,7 @@ export interface IUpdateProduct extends Partial<Product> {}
 export interface IProductResponse {
   product: Product;
 }
+
+export interface IProductsResponse {
+  products: Product[];
+}

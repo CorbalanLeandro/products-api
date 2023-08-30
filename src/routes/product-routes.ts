@@ -7,6 +7,7 @@ import {
   ProductNameParamValidationSchema,
   UpdateProductValidationSchema,
   MongoIdParamValidationSchema,
+  MongoSortQueryValidationSchema,
 } from '../validation-schemas';
 
 import { validateRequest, withErrorHandling } from '../middlewares';
@@ -21,9 +22,12 @@ router.post(
   withErrorHandling(productController.createProduct),
 );
 
-router.get('/', (_req, res) => {
-  res.send('Getting all products');
-});
+router.get(
+  '/',
+  checkSchema(MongoSortQueryValidationSchema),
+  validateRequest,
+  withErrorHandling(productController.findAllProducts),
+);
 
 router.patch(
   '/:id',
