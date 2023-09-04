@@ -8,6 +8,8 @@ import {
   UpdateProductValidationSchema,
   MongoIdParamValidationSchema,
   MongoSortQueryValidationSchema,
+  ProductNameQuerySchemaValidation,
+  ProductCodeQuerySchemaValidation,
 } from '../validation-schemas';
 
 import { validateRequest, withErrorHandling } from '../middlewares';
@@ -24,7 +26,11 @@ router.post(
 
 router.get(
   '/',
-  checkSchema(MongoSortQueryValidationSchema),
+  checkSchema({
+    ...MongoSortQueryValidationSchema,
+    ...ProductCodeQuerySchemaValidation,
+    ...ProductNameQuerySchemaValidation,
+  }),
   validateRequest,
   withErrorHandling(productController.findAllProducts),
 );

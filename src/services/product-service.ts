@@ -1,5 +1,5 @@
 import { FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
-import { MONGO_SORT } from '../constants';
+
 import { ICreateProduct, IUpdateProduct } from '../interfaces';
 import { ProductDocument, ProductModel } from '../models';
 
@@ -22,8 +22,12 @@ class ProductService {
    * @param {MONGO_SORT} sort
    * @returns {Promise<ProductDocument[]>}
    */
-  async findAllProducts(sort?: MONGO_SORT): Promise<ProductDocument[]> {
-    return ProductModel.find({}, {}, { sort: { createdAt: sort } });
+  async findAllProducts(
+    filter: FilterQuery<ProductDocument> = {},
+    projections: ProjectionType<ProductDocument> = {},
+    options: QueryOptions<ProductDocument> = {},
+  ): Promise<ProductDocument[]> {
+    return ProductModel.find(filter, projections, options);
   }
 
   /**

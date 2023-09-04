@@ -1,5 +1,11 @@
 import { ParamSchema } from 'express-validator';
-import { ICreateProduct, IMongoId } from '../interfaces';
+
+import {
+  ICreateProduct,
+  IMongoId,
+  IProductCode,
+  IProductName,
+} from '../interfaces';
 
 import {
   PRODUCT_CODE_LENGTH,
@@ -83,9 +89,14 @@ const UpdateProductValidationSchema: IUpdateProductValidationSchema = {
   ...MongoIdParamValidationSchema,
 };
 
+/** Code and name schema validation types */
+
+type IProductCodeValidationSchema = Record<keyof IProductCode, ParamSchema>;
+type IProductNameValidationSchema = Record<keyof IProductName, ParamSchema>;
+
 /** Get product by code validation schema */
 
-const ProductCodeParamValidationSchema: { code: ParamSchema } = {
+const ProductCodeParamValidationSchema: IProductCodeValidationSchema = {
   code: {
     ...defaultProductCodeSchemaValidation,
     in: 'params',
@@ -94,10 +105,40 @@ const ProductCodeParamValidationSchema: { code: ParamSchema } = {
 
 /** Get product by name validation schema */
 
-const ProductNameParamValidationSchema: { name: ParamSchema } = {
+const ProductNameParamValidationSchema: IProductNameValidationSchema = {
   name: {
     ...defaultProductNameSchemaValidation,
     in: 'params',
+  },
+};
+
+/** Query param `code` validation */
+
+const ProductCodeQuerySchemaValidation: IProductCodeValidationSchema = {
+  code: {
+    isLength: {
+      options: {
+        max: PRODUCT_CODE_LENGTH.MAX,
+      },
+      errorMessage: `"code" length must be less than ${PRODUCT_CODE_LENGTH.MAX} characters.`,
+    },
+    in: 'query',
+    optional: true,
+  },
+};
+
+/** Query param `name` validation */
+
+const ProductNameQuerySchemaValidation: IProductNameValidationSchema = {
+  name: {
+    isLength: {
+      options: {
+        max: PRODUCT_NAME_LENGTH.MAX,
+      },
+      errorMessage: `"name" length must be less than ${PRODUCT_NAME_LENGTH.MAX} characters.`,
+    },
+    in: 'query',
+    optional: true,
   },
 };
 
@@ -108,4 +149,6 @@ export {
   UpdateProductValidationSchema,
   ProductCodeParamValidationSchema,
   ProductNameParamValidationSchema,
+  ProductCodeQuerySchemaValidation,
+  ProductNameQuerySchemaValidation,
 };

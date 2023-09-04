@@ -13,3 +13,6 @@ export interface IProductResponse {
 export interface IProductsResponse {
   products: Product[];
 }
+
+export interface IProductName extends Pick<Product, 'name'> {}
+export interface IProductCode extends Pick<Product, 'code'> {}

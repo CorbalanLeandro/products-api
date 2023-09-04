@@ -13,7 +13,11 @@ import {
   IMongoSort,
   IUpdateProduct,
   IMongoId,
+  IProductCode,
+  IProductName,
 } from '../interfaces';
+import { getModelFilterByRegex } from '../utils';
+import { Product } from '../models';
 
 class ProductController {
   /**
@@ -45,8 +49,19 @@ class ProductController {
     req: Request,
     res: Response<IProductsResponse>,
   ): Promise<Response<IProductsResponse>> {
-    const validatedData = matchedData(req) as IMongoSort;
-    const products = await productService.findAllProducts(validatedData.sort);
+    const {
+      sort: sortValue,
+      code,
+      name,
+    } = matchedData(req) as IMongoSort &
+      Partial<IProductCode> &
+      Partial<IProductName>;
+
+    const filter = getModelFilterByRegex<Product>({ code, name });
+
+    const products = await productService.findAllProducts(filter, undefined, {
+      sort: { createdAt: sortValue },
+    });
 
     return res.status(StatusCodes.OK).json({ products });
   }
