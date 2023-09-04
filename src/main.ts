@@ -24,11 +24,11 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
       typeof err === 'object' &&
       'code' in err &&
       'message' in err &&
-      err.code === 11000)
+      err.code === 11000) // mongo error for duplicated keys.
   ) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       error: ReasonPhrases.BAD_REQUEST,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: StatusCodes.BAD_REQUEST,
       message: err.message,
     });
   }

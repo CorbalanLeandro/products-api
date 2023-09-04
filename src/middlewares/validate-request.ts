@@ -22,7 +22,7 @@ export function validateRequest(
   if (!errors.isEmpty()) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ message: ReasonPhrases.BAD_REQUEST, errors: errors.array() });
+      .json({ message: ReasonPhrases.BAD_REQUEST, errors: errors.array() });
   } else {
     next();
   }
